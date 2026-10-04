@@ -1,0 +1,10 @@
+[
+  {
+    "tag": "qwen3vl_8b",
+    "args": "-m $HOME/models/qwen3vl8b.gguf --mmproj $HOME/models/qwen3vl8b_mmproj.gguf --ctx-size 32768 --parallel 4"
+  },
+  {
+    "tag": "internvl35_8b",
+    "args": "-m $HOME/models/internvl35.gguf --mmproj $HOME/models/internvl35_mmproj.gguf --ctx-size 32768 --parallel 4"
+  }
+]
