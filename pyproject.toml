@@ -1,0 +1,109 @@
+[project]
+name = "punquizcn"
+version = "0.1.0"
+description = "Evaluation code for PunQuizCN: a large-scale Chinese multimodal homophone-rebus (two-image guessing game) corpus"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Kushim-Jiang", email = "kushim_jiang@outlook.com" }
+]
+requires-python = ">=3.11"
+keywords = [
+    "chinese",
+    "homophone",
+    "pun",
+    "rebus",
+    "multimodal",
+    "vision-language",
+    "benchmark",
+    "nlp",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "pypinyin>=0.55.0",
+    "pillow>=10.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Kushim-Jiang/punquiz-cn"
+Issues = "https://github.com/Kushim-Jiang/punquiz-cn/issues"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "mypy>=1.10.0",
+    "ruff>=0.6.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.9.8,<0.10.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "punquizcn"
+module-root = "src"
+
+# ---------------------------------------------------------------------------
+# Ruff
+# ---------------------------------------------------------------------------
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tools"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "N",    # pep8-naming
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "SIM",  # flake8-simplify
+    "PTH",  # flake8-use-pathlib  <- 强制用 pathlib
+    "ANN",  # flake8-annotations   <- 强制类型标注
+    "BLE",  # flake8-blind-except  <- 裸 except 需显式标注理由
+    "RUF",
+]
+ignore = [
+    "ANN401",  # 允许 Any（评测代码里用于动态 args 透传）
+    "E501",  # 不限制行长：中文注释与提示词模板折行会破坏可读性/语义
+    # 本仓库的注释与提示词以中文为主，全角标点是正常内容而非「歧义字符」。
+    "RUF001",  # ambiguous-unicode-character-string
+    "RUF002",  # ambiguous-unicode-character-docstring
+    "RUF003",  # ambiguous-unicode-character-comment
+]
+
+[tool.ruff.lint.per-file-ignores]
+# 工具脚本允许省略部分标注（它们不是库的一部分）
+"tools/**" = ["ANN001", "ANN201"]
+"tests/**" = ["ANN001", "ANN201"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["punquizcn"]
+
+# ---------------------------------------------------------------------------
+# mypy
+# ---------------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unreachable = true
+warn_unused_ignores = true
+files = ["src/punquizcn"]
+
+# ---------------------------------------------------------------------------
+# pytest
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -q"
