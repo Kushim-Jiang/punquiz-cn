@@ -1,0 +1,13 @@
+{"id": "181", "answer": "没关系", "hint_text": "这是ABC", "guess_text": "AB被关起来了", "split": "dev", "url": "https://mp.weixin.qq.com/s/wg_nDaGLCQiK-y34dz3idw"}
+{"id": "996", "answer": "备忘录", "hint_text": "这是刘关张", "guess_text": "刘备扛着摄影机对关羽和张飞说：刚刚那么帅的一幕，我居然忘点开始了", "split": "train", "url": "https://mp.weixin.qq.com/s/7ciF0JGUCWTdFUzNs06o6A"}
+{"id": "1125", "answer": "贵阳", "hint_text": "这是羊", "guess_text": "价值100万的羊（猜国内城市）", "split": "train", "url": "https://mp.weixin.qq.com/s/_QOWjBdx7vX1hpg2hYeYIA"}
+{"id": "65", "answer": "肱二头肌", "hint_text": "这是公鸡", "guess_text": "两只公鸡", "split": "train", "url": "https://mp.weixin.qq.com/s/xhfnquYkIkjLbYb-8mBZ5Q"}
+{"id": "110", "answer": "牛角包", "hint_text": "这是面包", "guess_text": "一块面包脚扭伤了坐在地上", "split": "train", "url": "https://mp.weixin.qq.com/s/A8vbn0ibRE0xj1dPVk40HA"}
+{"id": "230", "answer": "倒反天罡", "hint_text": "这是缸", "guess_text": "天空上一口倒过来的缸", "split": "train", "url": "https://mp.weixin.qq.com/s/ucc7HFWC6ZD8_VFcdNbhvQ"}
+{"id": "369", "answer": "少林寺", "hint_text": "这是少年", "guess_text": "少年用碰头给4淋水", "split": "train", "url": "https://mp.weixin.qq.com/s/RhPjcA2rQzmooDDcNSkbyA"}
+{"id": "902", "answer": "不可思议", "hint_text": "这是book", "guess_text": "book在想一个亿", "split": "train", "url": "https://mp.weixin.qq.com/s/mWTs16VvlyX4lt1Qsldtig"}
+{"id": "903", "answer": "拖泥带水", "hint_text": "这是tony", "guess_text": "tony拿了两瓶水", "split": "train", "url": "https://mp.weixin.qq.com/s/mWTs16VvlyX4lt1Qsldtig"}
+{"id": "159", "answer": "反派", "hint_text": "这是π", "guess_text": "翻转了180度的π", "split": "train", "url": "https://mp.weixin.qq.com/s/XorhiV0yt_n_b3EB8FHM7A"}
+{"id": "4945", "answer": "栓Q", "hint_text": "一个救火栓", "guess_text": "一个救火栓抱着一个Q字", "split": "train", "url": "https://mp.weixin.qq.com/s/qTWqq95odVSPW0GFuwRS0g"}
+{"id": "4962", "answer": "比心", "hint_text": "一个小蜜蜂", "guess_text": "蜜蜂捧着一个爱心，2个字", "split": "train", "url": "https://mp.weixin.qq.com/s/xyMilXBeoDOKX3_YkOcPSQ"}
+{"id": "5312", "answer": "温酒斩华雄", "hint_text": "这是熊", "guess_text": "windows9用刀斩花和熊", "split": "test", "url": "https://mp.weixin.qq.com/s/qD3wqp1OFVAkiag0GFRucQ"}
