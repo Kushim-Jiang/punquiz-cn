@@ -198,12 +198,12 @@ small (102/16/45 items).
 The corpus is **not** distributed in this repository. Statistics for the
 released set (`release_corpus_final.tsv`, 10,000 valid items):
 
-* 4,041 two-character / 3,107 three-character / 2,700 four-character answers
+* 4,042 two-character / 3,107 three-character / 2,700 four-character answers
   (plus a long tail of 5–26 character multi-word answers)
-* 4,389 unique answers
-* split: train 8,025 / dev 981 / test 994
+* 4,387 unique answers
+* split: train 8,026 / dev 979 / test 995
 * 197 items containing Latin letters, 312 containing digits
-* 9,187 items whose hint panel begins with `这是` ("this is")
+* 9,192 items whose hint panel begins with `这是` ("this is")
 
 Point the code at your copy with either an environment variable or a path:
 
@@ -249,6 +249,57 @@ uv run python tools/corpus/prepare_benchmark.py --data-dir data --split test
 `--local-root` is required rather than defaulted, so no personal path is
 baked into the code.
 
+## Data inventory
+
+### Item identifiers
+
+All 10,000 valid items are numbered `q00001`-`q10000`. Numbers are assigned
+by data split (train then dev then test) and, within a split, by ascending
+original record id, so the identifier itself encodes the split and the
+assignment is fully reproducible:
+
+| split | identifier range | items |
+|---|---|---|
+| train | `q00001`-`q08026` | 8,026 |
+| dev | `q08027`-`q09005` | 979 |
+| test | `q09006`-`q10000` | 995 |
+
+The bidirectional map between identifiers and original ids ships as
+`qid_map.tsv` (original id, identifier, split, answer, answer category,
+answer length, both descriptions). **Every row of every released artefact
+carries both the identifier and the original id**, so any reported result can
+be traced to a specific item and any item can be looked up across all
+experiments.
+
+### Released artefacts
+
+All experiment artefacts are released with the resource:
+
+| artefact | contents |
+|---|---|
+| `qid_map.tsv` | identifier map (10,000 rows) |
+| `items_qid.jsonl` | item statements with identifiers, ready to load for evaluation |
+| `main_results.jsonl` | full per-item main results (60,000 rows = 6 models x 10,000 items); each row gives identifier, model, judging outcome, and the parsed guess per turn |
+| `ablation_all.jsonl` | full per-item ablation results (69,348 rows = 7 conditions x 6 models); same fields plus the condition name |
+| `tables/` | every statistics table in the paper, in both LaTeX and TSV |
+
+### Reproducibility
+
+All experiments run locally on our own hardware under a single `llama.cpp`
+build, greedily decoded (T=0) with reasoning disabled. Every item is
+evaluated under the same prompt template, inference engine, and sampling
+parameters; the only thing that varies between runs is which weights are
+loaded. Both images are re-sent each turn, and no hidden state is carried
+across turns.
+
+**Sampling caveat.** The ablations use a fixed-seed stratified sample by
+answer length (`--sample 500`), about 1,650 items per condition. Because the
+sampling depends on item ordering in the list, *any* addition or removal
+shifts the sample wholesale - in auditing, adding or removing just 10 items
+changed about 35% of the sampled entries. All ablation results therefore come
+from a single pass over one corpus snapshot and are never mixed across
+versions.
+
 ## Development
 
 ```bash
@@ -276,7 +327,7 @@ Style conventions enforced by the lint config:
 
 ```bibtex
 @inproceedings{punquizcn,
-  title     = {PunQuizCN: A Large-Scale Chinese Multimodal Homophone-Rebus Corpus},
+  title     = {PunQuizCN: A Benchmark for Vision-Language Models on Chinese Two-Image Homophone Rebuses},
   author    = {Jiang, Kushim and others},
   booktitle = {To appear},
   year      = {2026}
