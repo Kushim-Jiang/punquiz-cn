@@ -165,8 +165,8 @@ Every run supports `--resume`, so an interrupted job continues where it stopped.
 Two groups were designed and then **deliberately dropped**:
 
 * **Feedback granularity** (`none`/`bin`/`tri`/`phon`/`phon_char`/`phon_near`).
-  Measured feedback gain was only **+0.35 to +2.25 pp**, against first-turn
-  accuracies of 0.4–9.6%, with sharply diminishing returns on turns 2 and 3.
+  Measured feedback gain was only **+0.3 to +1.8 pp**, against first-turn
+  accuracies of 0.4–9.5%, with sharply diminishing returns on turns 2 and 3.
   Spending 6 tiers × 6 models would only re-derive "feedback helps a little" —
   which the existing ~60k-item run already establishes. The result is reported
   in the paper as an informative **negative finding**, not as untested.
@@ -227,6 +227,36 @@ parenthetical is the corpus's own gloss of the pun, not part of the answer.
 Scoring handles it: `is_correct("栓Q", "栓Q（thank you）")` returns
 `(True, 'homophone')`, so a model that emits the clean answer is still counted
 correct. Only the tier label differs from `exact`.
+
+### Splits
+
+`split` is a **group-disjoint** 80/10/10 split over puzzle identity:
+`train` 8,026 / `dev` 979 / `test` 995. It is a stable hash of the item's
+`group_id` — the de-duplication cluster that groups every repost of one
+puzzle — so all reposts of a puzzle stay in the same split, and a model trained
+on `train` never sees a cluster that also occurs in `test`:
+
+```python
+h = int(hashlib.md5(group_id.encode()).hexdigest(), 16) % 10
+split = "train" if h < 8 else ("dev" if h == 8 else "test")
+```
+
+Two points are worth being precise about, because this field is easy to
+over-read:
+
+* **The published benchmark numbers do not use the split.** Every result in the
+  paper is zero-shot over all 10,000 valid items. Leakage there is controlled by
+  *publication timestamp* instead: the whole collection window
+  (2025-09 – 2026-07) postdates every evaluated model's pre-training cutoff, so
+  the corpus is effectively held out as a whole and a train/dev/test split would
+  add nothing.
+* **The split is random, not temporal.** The names `train`/`dev`/`test` are a
+  convention; they do not mean early/mid/late collection periods.
+
+Its purpose is therefore (a) reproducible re-running of the reported analysis
+and (b) a ready-made, cluster-leakage-safe default for anyone who wants to
+fine-tune on the corpus. Select a portion with
+`uv run python tools/corpus/prepare_benchmark.py --split test`.
 
 ### Building the corpus
 
@@ -336,4 +366,17 @@ Style conventions enforced by the lint config:
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+Code: MIT — see [LICENSE](LICENSE). The corpus itself (annotations, metadata,
+prompts) is licensed CC BY-NC 4.0; see [`DATA_SHEET.md`](DATA_SHEET.md).
+
+## Documentation
+
+- [`README.md`](README.md) — this file: install, layout, prompts, evaluation, data.
+- [`DATA_SHEET.md`](DATA_SHEET.md) — canonical datasheet for the corpus
+  (composition, collection process, splits, licence, distribution, maintenance).
+
+## Contact
+
+Issues and questions: open an issue in this repository, or contact the corresponding
+author of the paper. For takedown requests, please use the same channel and state the
+item ids.
